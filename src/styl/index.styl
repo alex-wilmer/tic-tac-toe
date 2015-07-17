@@ -1,0 +1,61 @@
+@import 'nib'
+
+pinkish = #a89
+
+html,
+body
+  height 100%
+  margin 0
+  font-family Helvetica
+  background #19
+  color pinkish
+
+*
+  box-sizing border-box
+
+body
+  display flex
+  align-items center
+  justify-content center
+
+  board
+    size 160px // why??
+
+    cell
+      position relative
+      display inline-block
+      size 50px
+      border 1px solid
+      transition background 0.25s ease
+
+      &:hover
+        cursor pointer
+        background #77334e
+
+.center
+  position absolute
+  top 50%
+  left 50%
+  transform translate(-50%, -50%)
+
+message
+  position absolute
+  top 20px
+  left 0
+  width 100%
+  text-align center
+
+reset
+  position absolute
+  right 0
+  z-index 1
+  margin 20px
+  padding 4px 7px
+  border 1px solid
+  border-radius 5px
+  cursor pointer
+  transition all 0.3s ease
+
+  &:hover
+    background pinkish
+    color black
