@@ -1,0 +1,7 @@
+reset Reset
+message
+board
+  each row in [0, 1, 2]
+    row
+      each cell in [0, 1, 2]
+        cell(data-x="#{row}" data-y="#{cell}")

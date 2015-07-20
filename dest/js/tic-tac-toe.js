@@ -8,32 +8,15 @@
 // Alex Wilmer, July 2015
 // github.com/alex-wilmer
 
-'use strict';
+"use strict";
 
 ;(function () {
   // Module Scope
 
   /* Pure Functions */
 
-  var sum = // (number, number) -> number
-  function sum(a, b) {
-    return a + b;
-  };
-
-  var reduceSum = // array -> number
-  function reduceSum(list) {
-    return list.reduce(sum);
-  };
-
-  var mapReduceSum = // [array] -> array
-  R.map(reduceSum);
-
-  var reverse = // array -> array
-  function reverse(list) {
-    return list.map(function (item, index) {
-      return list[list.length - 1 - index];
-    });
-  };
+  var mapSum = // [array] -> array
+  R.map(R.sum);
 
   var transpose = // [array] -> [array]
   function transpose(matrix) {
@@ -52,16 +35,16 @@
   };
 
   var sumVertical = // [array] -> array
-  R.compose(mapReduceSum, transpose);
+  R.compose(mapSum, transpose);
 
   var sumDiagonalLR = // [array] -> array
-  R.compose(reduceSum, diagonal);
+  R.compose(R.sum, diagonal);
 
   var sumDiagonalRL = // [array] -> array
-  R.compose(reduceSum, diagonal, reverse);
+  R.compose(R.sum, diagonal, R.reverse);
 
   var total = // [array] -> number
-  R.compose(reduceSum, mapReduceSum);
+  R.compose(R.sum, mapSum);
 
   var changeListValue = // (array, integer, x) -> array
   function changeListValue(list, index, value) {
@@ -77,15 +60,15 @@
 
   /* View State */
 
-  $('cell').asEventStream('click').onValue((function () {
+  $("cell").asEventStream("click").onValue((function () {
     var init = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     var states = [init];
     var gameOn = true;
 
-    $('reset').click(function () {
+    $("reset").click(function () {
       gameOn = true;
       states = [init];
-      $('cell, message').html('');
+      $("cell, message").html("");
     });
 
     return function (event) {
@@ -107,21 +90,21 @@
             }));
 
             // draw X or O
-            $('[data-x=\'' + x + '\'][data-y=\'' + y + '\']').html('<div class="center">\n              ' + (!total(states[states.length - 1]) ? 'O' : 'X') + '\n            </div>');
+            $("[data-x='" + x + "'][data-y='" + y + "']").html("<div class=\"center\">\n              " + (!total(states[states.length - 1]) ? "O" : "X") + "\n            </div>");
 
             if (states.length > 5) {
               // minimum number of moves to win
               var last = states[states.length - 1];
 
-              if (Math.abs(sumDiagonalLR(last)) === 3 || Math.abs(sumDiagonalRL(last)) === 3 || mapReduceSum(last).some(function (n) {
+              if (Math.abs(sumDiagonalLR(last)) === 3 || Math.abs(sumDiagonalRL(last)) === 3 || mapSum(last).some(function (n) {
                 return Math.abs(n) === 3;
               }) || sumVertical(last).some(function (n) {
                 return Math.abs(n) === 3;
               })) {
-                $('message').html('<div>\n                  ' + (!total(last) ? 'O wins!' : 'X wins!') + '\n                </div>');
+                $("message").html("<div>\n                  " + (!total(last) ? "O wins!" : "X wins!") + "\n                </div>");
                 gameOn = false;
               } else if (states.length === 10) {
-                $('message').html('<div>Cat\'s game!</div>');
+                $("message").html("<div>Cat's game!</div>");
               }
             }
           }

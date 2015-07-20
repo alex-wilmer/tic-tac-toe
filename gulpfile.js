@@ -3,6 +3,7 @@ var gulp = require('gulp')
   , stylus = require('gulp-stylus')
   , nib = require('nib')
   , jade = require('gulp-jade')
+  , react = require('gulp-react')
 
 gulp.task('babel', function () {
   return gulp.src('src/js/*.js')
@@ -22,10 +23,18 @@ gulp.task('jade', function () {
     .pipe(gulp.dest('dest'))
 })
 
+gulp.task('react', function () {
+  return gulp.src('src/jsx/*.jsx')
+    .pipe(babel())
+    .pipe(gulp.dest('dest/jsx'))
+})
+
+
 gulp.task('watch', function () {
   gulp.watch('src/js/*.js', ['babel'])
   gulp.watch('src/styl/*.styl', ['stylus'])
   gulp.watch('src/*.jade', ['jade'])
+  gulp.watch('src/jsx/*.jsx', ['react'])
 })
 
-gulp.task('default', ['watch', 'babel', 'stylus', 'jade'])
+gulp.task('default', ['watch', 'babel', 'stylus', 'jade', 'react'])

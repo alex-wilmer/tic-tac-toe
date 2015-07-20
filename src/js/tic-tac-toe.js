@@ -12,17 +12,8 @@
 
   /* Pure Functions */
 
-  const sum = // (number, number) -> number
-    (a, b) => a + b
-
-  const reduceSum = // array -> number
-    list => list.reduce(sum)
-
-  const mapReduceSum = // [array] -> array
-    R.map(reduceSum)
-
-  const reverse = // array -> array
-    list => list.map((item, index) => list[list.length - 1 - index])
+  const mapSum = // [array] -> array
+    R.map(R.sum)
 
   const transpose = // [array] -> [array]
     matrix => matrix[0].map((cell, index) => matrix.map(row => row[index]))
@@ -31,16 +22,16 @@
     matrix => matrix.map((row, index) => matrix[index][index])
 
   const sumVertical = // [array] -> array
-    R.compose(mapReduceSum, transpose)
+    R.compose(mapSum, transpose)
 
   const sumDiagonalLR = // [array] -> array
-    R.compose(reduceSum, diagonal)
+    R.compose(R.sum, diagonal)
 
   const sumDiagonalRL = // [array] -> array
-    R.compose(reduceSum, diagonal, reverse)
+    R.compose(R.sum, diagonal, R.reverse)
 
   const total = // [array] -> number
-    R.compose(reduceSum, mapReduceSum)
+    R.compose(R.sum, mapSum)
 
   const changeListValue =  // (array, integer, x) -> array
     (list, index, value) => {
@@ -55,7 +46,7 @@
 
   /* View State */
 
-  $('cell').asEventStream('click').onValue((() => {
+  $(`cell`).asEventStream(`click`).onValue((() => {
     const init = [ [0, 0, 0], [0, 0, 0], [0, 0, 0] ]
     let states = [ init ]
     let gameOn = true
@@ -95,7 +86,7 @@
 
             if (Math.abs(sumDiagonalLR(last)) === 3
              || Math.abs(sumDiagonalRL(last)) === 3
-             || mapReduceSum(last).some(n => Math.abs(n) === 3)
+             || mapSum(last).some(n => Math.abs(n) === 3)
              || sumVertical(last).some(n => Math.abs(n) === 3)) {
               $(`message`).html(
                `<div>

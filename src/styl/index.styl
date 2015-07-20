@@ -18,19 +18,36 @@ body
   align-items center
   justify-content center
 
-  board
-    size 160px // why??
+  .board
+    size 30vw // why??
+    max-width 500px
+    max-height 500px
 
-    cell
+    .row:first-child
+      .cell
+        border-bottom 1px solid
+
+    .row:last-child
+      .cell
+        border-top 1px solid
+
+    .row
+      .cell:first-child
+        border-right 1px solid
+
+      .cell:last-child
+        border-left 1px solid
+
+    .cell
       position relative
       display inline-block
-      size 50px
-      border 1px solid
+      size 10vw
+      font-size 7vw
+      font-weight 100
       transition background 0.25s ease
 
       &:hover
         cursor pointer
-        background #77334e
 
 .center
   position absolute
@@ -38,14 +55,14 @@ body
   left 50%
   transform translate(-50%, -50%)
 
-message
+.message
   position absolute
   top 20px
   left 0
   width 100%
   text-align center
 
-reset
+.reset
   position absolute
   right 0
   z-index 1
